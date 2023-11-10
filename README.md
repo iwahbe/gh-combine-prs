@@ -28,10 +28,16 @@ gh extension install rnorth/gh-combine-prs
 
 ## Usage
 
-```
+```shell
 cd $DIRECTORY_OF_YOUR_REPO
 
 gh combine-prs --query "QUERY"
+```
+
+To auto-merge all dependabot PRs with the added label `impact/no-changelog-required`, run:
+
+``` shell
+gh combine-prs --skip-pr-check --query author:app/dependabot --auto-merge --non-interactive --labels impact/no-changelog-required
 ```
 
 ### Required arguments
