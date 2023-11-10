@@ -51,6 +51,14 @@ gh combine-prs --query "QUERY"
     --skip-pr-check
             if set, will combine matching PRs even if they are not passing checks.
             Defaults to false when not specified
+    --non-interactive
+            if set, will not prompt for confirmation before combining PRs. Warning: Can be destructive as we force push to combined-pr-branch to achieve this.
+            Defaults to false when not specified
+    --auto-merge
+            if set, the created PR will be marked to auto-merge.
+            Defaults to false when not specified
+    --labels
+            if set, these labels will be added to the default labels. Labels should be a comma seperated list of labels.
 
 ## License
 
