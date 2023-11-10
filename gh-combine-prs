@@ -179,5 +179,5 @@ else
 fi
 
 if [[ "$AUTO_MERGE" == "true" ]]; then
-	gh pr merge --auto
+	gh pr merge --auto --merge
 fi
