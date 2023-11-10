@@ -72,15 +72,12 @@ while [ $# -gt 0 ]; do
 		QUERY=$1
 		;;
 	--skip-pr-check)
-		shift
 		SKIP_PR_CHECK="true"
 		;;
 	--non-interactive)
-		shift
 		NON_INTERACTIVE="true"
 		;;
 	--auto-merge)
-		shift
 		AUTO_MERGE="true"
 		;;
 	--labels)
