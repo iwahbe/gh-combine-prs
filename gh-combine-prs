@@ -30,6 +30,8 @@ Usage: gh combine-prs --query "QUERY"
 		--auto-merge
 				if set, the created PR will be marked to auto-merge.
 				Defaults to false when not specified
+		--labels
+				if set, these labels will be added to the default labels. Labels should be a comma seperated list of labels.
 
 EOF
 }
@@ -50,6 +52,7 @@ SKIP_PR_CHECK="false"
 SELECTED_PR_NUMBERS=
 NON_INTERACTIVE="false"
 AUTO_MERGE="false"
+LABELS=
 while [ $# -gt 0 ]; do
 	case "$1" in
 	-h|--help)
@@ -69,13 +72,20 @@ while [ $# -gt 0 ]; do
 		QUERY=$1
 		;;
 	--skip-pr-check)
+		shift
 		SKIP_PR_CHECK="true"
 		;;
 	--non-interactive)
+		shift
 		NON_INTERACTIVE="true"
 		;;
 	--auto-merge)
+		shift
 		AUTO_MERGE="true"
+		;;
+	--labels)
+		shift
+		LABELS=$1
 		;;
        	*)
 		help >&2
@@ -172,10 +182,10 @@ echo "Creating PR"
 
 # push origin so that gh pr create can be non-interactive
 if [[ "${NON_INTERACTIVE}" == "false" ]]; then
-	gh pr create --title "Combined dependencies PR" --body-file $BODY_FILE --label dependencies
+	gh pr create --title "Combined dependencies PR" --body-file $BODY_FILE --label "dependencies${LABELS:+,$LABELS}"
 else
 	git push origin "$COMBINED_BRANCH" --force
-	gh pr create --fill --title "Combined dependencies PR" --body-file $BODY_FILE --label dependencies
+	gh pr create --fill --title "Combined dependencies PR" --body-file $BODY_FILE --label "dependencies${LABELS:+,$LABELS}"
 fi
 
 if [[ "$AUTO_MERGE" == "true" ]]; then
