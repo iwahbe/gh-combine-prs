@@ -124,7 +124,7 @@ if [[ "${SKIP_PR_CHECK}" == "true" ]]; then
 	echo -e "\nAction status checks for PRs will be skipped"
 fi
 
-if [[ "$(gh pr list --search "author:app/dependabot" --json id --jq '. | length')" == 0 ]]; then
+if [[ "$(gh pr list --search "${QUERY}" --json id --jq '. | length')" == 0 ]]; then
     echo -e "\nNo PRs are available\n"
     exit 0
 fi
