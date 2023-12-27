@@ -127,8 +127,6 @@ fi
 if [[ "$(gh pr list --search "${QUERY}" --limit 1 --json id --jq '. | length')" = 0 ]]; then
     echo -e "\nNo PRs are available\n"
     exit 0
-else
-    echo -e "\ncontinuing"
 fi
 
 
@@ -191,7 +189,11 @@ if [[ "${NON_INTERACTIVE}" == "false" ]]; then
 	gh pr create --title "Combined dependencies PR" --body-file $BODY_FILE --label "dependencies${LABELS:+,$LABELS}"
 else
 	git push origin "$COMBINED_BRANCH" --force
-	gh pr create --fill --title "Combined dependencies PR" --body-file $BODY_FILE --label "dependencies${LABELS:+,$LABELS}"
+        # If there is no PR from this branch already, create it.
+        if [[ "$(gh pr list --head "$COMBINED_BRANCH" --limit 1 --json id --jq '. | length')" = 0 ]]; then
+	    gh pr create --fill --title "Combined dependencies PR" --body-file $BODY_FILE \
+               --label "dependencies${LABELS:+,$LABELS}"
+        fi
 fi
 
 if [[ "$AUTO_MERGE" == "true" ]]; then
